@@ -1,0 +1,2 @@
+/bin/ar qc libSOURCES.a  CMakeFiles/SOURCES.dir/Transport/NBallRadonManager.cpp.o CMakeFiles/SOURCES.dir/Tools/mapping.cpp.o CMakeFiles/SOURCES.dir/Tools/my_utility.cpp.o CMakeFiles/SOURCES.dir/Math/myMath.cpp.o
+/bin/ranlib libSOURCES.a

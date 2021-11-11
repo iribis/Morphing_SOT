@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/build",
+  "command": "/bin/x86_64-linux-gnu-g++-8     -Wall -fopenmp -g   -std=gnu++14 -o CMakeFiles/SOURCES.dir/Transport/NBallRadonManager.cpp.o -c /home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/Transport/NBallRadonManager.cpp",
+  "file": "/home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/Transport/NBallRadonManager.cpp"
+},
+{
+  "directory": "/home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/build",
+  "command": "/bin/x86_64-linux-gnu-g++-8     -Wall -fopenmp -g   -std=gnu++14 -o CMakeFiles/SOURCES.dir/Tools/mapping.cpp.o -c /home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/Tools/mapping.cpp",
+  "file": "/home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/Tools/mapping.cpp"
+},
+{
+  "directory": "/home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/build",
+  "command": "/bin/x86_64-linux-gnu-g++-8     -Wall -fopenmp -g   -std=gnu++14 -o CMakeFiles/SOURCES.dir/Tools/my_utility.cpp.o -c /home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/Tools/my_utility.cpp",
+  "file": "/home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/Tools/my_utility.cpp"
+},
+{
+  "directory": "/home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/build",
+  "command": "/bin/x86_64-linux-gnu-g++-8     -Wall -fopenmp -g   -std=gnu++14 -o CMakeFiles/SOURCES.dir/Math/myMath.cpp.o -c /home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/Math/myMath.cpp",
+  "file": "/home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/Math/myMath.cpp"
+},
+{
+  "directory": "/home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/build",
+  "command": "/bin/x86_64-linux-gnu-g++-8     -Wall -fopenmp -g   -std=gnu++14 -o CMakeFiles/sot.dir/Mains/slicedOptimNDBall.cpp.o -c /home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/Mains/slicedOptimNDBall.cpp",
+  "file": "/home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/Mains/slicedOptimNDBall.cpp"
+}
+]

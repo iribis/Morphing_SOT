@@ -1,0 +1,4 @@
+/home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/build/CMakeFiles/rebuild_cache.dir
+/home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/build/CMakeFiles/SOURCES.dir
+/home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/build/CMakeFiles/edit_cache.dir
+/home/csalaun/Workspace/sampling/OBJ_Sliced-Optimal-Transport-Sampling/build/CMakeFiles/sot.dir

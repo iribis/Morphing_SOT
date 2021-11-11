@@ -1,0 +1,1 @@
+/bin/x86_64-linux-gnu-g++-8   -Wall -fopenmp -g  -rdynamic CMakeFiles/sot.dir/Mains/slicedOptimNDBall.cpp.o  -o sot libSOURCES.a -lgsl -lgslcblas 
