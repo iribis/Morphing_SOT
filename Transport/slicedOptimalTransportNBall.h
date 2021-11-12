@@ -117,7 +117,9 @@ inline void chooseDirectionsND(std::vector<VECTYPE>& directions, int m, int seed
 template<class VECTYPE>
 inline void slicedStepNBall(const VECTYPE& dir,
                             const std::vector<VECTYPE>& points,
-                            std::vector<VECTYPE>& pointsTarget,
+                            std::vector<VECTYPE>& pointsTarget1,
+                            std::vector<VECTYPE>& pointsTarget2,
+                            double & alpha,
                             std::vector<double>& shift)
 {
     int N = points.front().dim();
@@ -128,7 +130,12 @@ inline void slicedStepNBall(const VECTYPE& dir,
     project(points, pointsProject, dir, N);
 
     std::vector<double> pos(pointsProject.size());
-    getInverseRadonNCube(N,pointsProject.size(), pos,dir, pointsTarget);
+    if(rnd < alpha) {
+        getInverseRadonNCube(N,pointsProject.size(), pos,dir, pointsTarget1);
+    }else{
+        getInverseRadonNCube(N,pointsProject.size(), pos,dir, pointsTarget2);
+    }
+    
 
     std::sort(pointsProject.begin(), pointsProject.end());
 
@@ -157,7 +164,9 @@ inline void slicedStepNBall(const VECTYPE& dir,
  */
 template <class VECTYPE>
 inline void slicedOptimalTransportBatch(std::vector<VECTYPE>& pointsOut,
-                                 std::vector<VECTYPE>& pointsTarget,
+                                 std::vector<VECTYPE>& pointsTarget1,
+                                 std::vector<VECTYPE>& pointsTarget2,
+                                 double & alpha,
                                  const std::vector<VECTYPE>& directions,
                                  std::vector<std::vector<double>>& shift,
                                  std::vector<VECTYPE>& finalShift)
@@ -174,7 +183,7 @@ inline void slicedOptimalTransportBatch(std::vector<VECTYPE>& pointsOut,
         }
         const VECTYPE& dir = directions[k];
 
-        slicedStepNBall(dir, pointsOut,pointsTarget, shift[k]);
+        slicedStepNBall(dir, pointsOut,pointsTarget1,pointsTarget2,alpha, shift[k]);
     }
 
         //Accumulate shift from all directions
@@ -225,7 +234,9 @@ void print_progress(double ratio){
 template <class VECTYPE>
 inline void slicedOptimalTransportNBall(const std::vector<VECTYPE>& pointsIn,
                                         std::vector<VECTYPE>& pointsOut,
-                                        std::vector<VECTYPE>& pointsTarget,
+                                        std::vector<VECTYPE>& pointsTarget1,
+                                        std::vector<VECTYPE>& pointsTarget2,
+                                        double alpha,
                                         int nbIter,
                                         int m,
                                         int seed, bool silent = false)
@@ -247,7 +258,7 @@ inline void slicedOptimalTransportNBall(const std::vector<VECTYPE>& pointsIn,
         }
         chooseDirectionsND(directions, m, seed);
 
-        slicedOptimalTransportBatch(pointsOut,pointsTarget, directions, shift, finalShift);
+        slicedOptimalTransportBatch(pointsOut,pointsTarget1,pointsTarget2,alpha, directions, shift, finalShift);
     }
     print_progress(1.0);
 

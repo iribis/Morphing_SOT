@@ -19,7 +19,7 @@ using namespace std;
 
 void usage(const char **argv){
     cerr << argv[0] << " [-o <OutputFileName>] "
-                       "[-n <nbPoints>] [-f <objFileName>] [-m <nbRealisations>] [-p <nbIteration>]"
+                       "[-n <nbPoints>] [-f1 <objFileName1>] [-f2 <objFileName2>] [-m <nbRealisations>] [-p <nbIteration>]"
                        "[--step <nbDirectionPerStep>] [-s <seed>] [-d <dimension>] [-c]" << endl;
 }
 
@@ -34,7 +34,9 @@ void handleParameters(int argc,
                       int& dim,
                       bool& cubify,
                       bool& silent,
-                      std::string& filename){
+                      std::string& filename1,
+                      std::string& filename2,
+                      double& alpha){
     int i = 1;
     while (i < argc){
         if (!strncmp(argv[i], "-o", 2)) {
@@ -55,8 +57,14 @@ void handleParameters(int argc,
         } else if (!strncmp(argv[i], "-s", 2)) {
             seed = atoi(argv[i+1]);
             ++i;
-        }else if (!strncmp(argv[i], "-f", 2)) {
-            filename = argv[i+1];
+        }else if (!strncmp(argv[i], "-f1", 3)) {
+            filename1 = argv[i+1];
+            ++i;
+        }else if (!strncmp(argv[i], "-f2", 3)) {
+            filename2 = argv[i+1];
+            ++i;
+        } else if (!strncmp(argv[i], "-a", 2)) {
+            alpha = float(atoi(argv[i+1])/10.0);
             ++i;
         } else if (!strncmp(argv[i], "-d", 2)) {
             dim = atoi(argv[i+1]);
@@ -72,6 +80,9 @@ void handleParameters(int argc,
             cerr << "\t-m <nbRealisations> (default 1): Specifies the number of generated pointsets" << endl;
             cerr << "\t-p <nbIteration> (default 4096): Specifies the number of batches in the optimization process" << endl;
             cerr << "\t--step <nbDirectionPerStep> (default 32): Specifies the number of slices per batch in the optimization process" << endl;
+            cerr << "\t-f1 <objFileName1> target OBJ file 1" << endl;
+            cerr << "\t-f2 <objFileName2> target OBJ file 2" << endl;
+            cerr << "\t-a <alpha> compromise between OBJ1 and OBJ2" << endl;
             cerr << "\t-s <seed> (default 133742): Specifies the random seed" << endl;
             cerr << "\t-d <dimension> (default 2): Specifies samples dimension" << endl;
             cerr << "\t-c (optional): If unset points will be given in the unit ball. Else they will be in the unit cube [0,1)^d" << endl;
@@ -117,6 +128,25 @@ void loadOBJ(std::string& filename,vector<VECTYPE>& points){
         }
     }
     std::cout << points.size() << std::endl;
+
+    VECTYPE min,max;
+    min = points[0];
+    max = points[0];
+    for(int i=0;i<points.size();++i){
+        for (int d = 0; d < min.dim();++d)
+        {
+            if(points[i][d]<min[d]){
+                min[d] = points[i][d];
+            }
+            if(points[i][d]>max[d]){
+                max[d] = points[i][d];
+            }
+        }
+    }
+    
+    for(int i=0;i<points.size();++i){
+        points[i] =(points[i]-min)/(max-min);
+    }
 }
 
 template <class VECTYPE>
@@ -132,10 +162,13 @@ int main_template(int argc, const char **argv) {
     int seed = 133742;
     bool cubify = false;
     bool silent = false;
-    std::string filename = "./test.obj";
+    std::string filename1 = "./test.obj";
+    std::string filename2 = "";
+    double alpha = 0.0;
 
-    handleParameters(argc, argv, outPrefix, nbIter, m, p, seed, nbPointsets, dim, cubify, silent,filename);
-
+    handleParameters(argc, argv, outPrefix, nbIter, m, p, seed, nbPointsets, dim, cubify, silent,filename1,filename2,alpha);
+    std::cout << alpha << std::endl;
+    if(filename2 == ""){filename2 = filename1;}
     //If file name ends in .bin then the output will be written in binary
     ostream* out = &cout;
     if (outPrefix != "") {
@@ -157,9 +190,12 @@ int main_template(int argc, const char **argv) {
     for (int indPointset = 0; indPointset < nbPointsets; ++indPointset) {
 
         vector<VECTYPE> points(p, VECTYPE(dim));
-        vector<VECTYPE> obj_point_list;
+        vector<VECTYPE> obj_point_list_1;
+        vector<VECTYPE> obj_point_list_2;
         
-        loadOBJ(filename,obj_point_list);
+        loadOBJ(filename1,obj_point_list_1);
+        loadOBJ(filename2,obj_point_list_2);
+
 
         //Init from whitenoise in ball
         uniform_real_distribution<> unif(0., 1.0);
@@ -171,7 +207,7 @@ int main_template(int argc, const char **argv) {
 
         vector<VECTYPE> result;
 
-        slicedOptimalTransportNBall(points, result,obj_point_list, nbIter, m, seed);
+        slicedOptimalTransportNBall(points, result,obj_point_list_1,obj_point_list_2,alpha, nbIter, m, seed);
 
         if (indPointset != 0)
             *out << "#" << endl;

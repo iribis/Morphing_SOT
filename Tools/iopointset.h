@@ -12,6 +12,8 @@
 template <class VECTYPE>
 inline void savePointsetND(std::ostream& out, const std::vector<VECTYPE>& points){
     VECTYPE min,max;
+    min = points[0];
+    max = points[0];
     for(int i=0;i<points.size();++i){
         for (int d = 0; d < min.dim();++d)
         {
